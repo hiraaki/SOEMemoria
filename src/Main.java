@@ -11,7 +11,7 @@ public class Main {
         ArrayList<Trace> list = new ArrayList<>();
 //        File file = new File("src/file.txt");
 
-        File file = new File("src/bigone.treace");
+        File file = new File("src/bigone.trace");
         BufferedReader reader = null;
 
         try {
@@ -36,7 +36,7 @@ public class Main {
         }
 
         int tamPagina = scanner.nextInt();
-//        int nframe = scanner.nextInt();
+        int nframe = scanner.nextInt();
 
         int i = 0;
         HashMap<String, ArrayList<Integer>> hashmap = new HashMap<>();
