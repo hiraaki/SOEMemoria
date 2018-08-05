@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class Trace implements Serializable {
@@ -6,7 +7,14 @@ public class Trace implements Serializable {
     private String operation;
 
     public Trace(String memoryAccess, String operation) {
-        this.memoryAccess = memoryAccess;
+        //parse de string de hexadecimal para binário
+
+        String string = new BigInteger(memoryAccess, 16).toString(2);
+        //Preenchendo zeros ignorados
+        while (string.length()<32)
+            string="0"+string;
+
+        this.memoryAccess =string ;
         this.operation = operation;
     }
 
