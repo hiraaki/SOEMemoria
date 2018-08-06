@@ -1,7 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class Otimo {
 
@@ -23,17 +21,21 @@ public class Otimo {
             String text = null;
 
             while ((text = reader.readLine()) != null) {
+
                 String array[]=text.split(" ");
                 Trace trace =new Trace(array[0],array[1]);
                 this.list.add(trace);
+
 
                 if(trace.getOperation()!= "W") {
                     String substring = new String(trace.getMemoryAccess()).substring(0,
                             (int)(Math.log(tamPagina)/Math.log(2))
                     );
+
 //                System.out.println(trace.getMemoryAccess());
 //                System.out.println(substring);
 //                System.out.println((int)(Math.log(tamPagina)/Math.log(2)));
+
                     if (hashmap.containsKey(substring)) {
                         hashmap.get(substring).add(linha);
                     } else {
@@ -56,12 +58,6 @@ public class Otimo {
             } catch (IOException e) {
             }
         }
-
-
-
-        for (Trace trace : list) {
-
-        }
 //        int num = (Integer.parseInt("00a02b0", 16));
 //        System.out.println(Integer.toBinaryString(num));
 //        for (String key : hashmap.keySet()) {
@@ -72,9 +68,25 @@ public class Otimo {
         System.out.println("Carregou");
     }
 
-    public void executar(){
+    public void executar(int nFrames){
+        ArrayList<String> framesMemória = new ArrayList<>();
         for(int i=0; i>this.list.size();i++){
-            
+            Trace trace = this.list.get(i);
+            String substring = new String(trace.getMemoryAccess()).substring(0,
+                    (int)(Math.log(tamPagina)/Math.log(2))
+            );
+            if(!framesMemória.contains(substring)){
+                if(framesMemória.size()<nFrames-1){
+                    framesMemória.add(substring);
+                }else{
+                    String selected;
+                    for(String frame:framesMemória){
+
+//                        if(hashmap.get(frame).listIterator(0)>)
+                    }
+                }
+            }
+
         }
     }
 

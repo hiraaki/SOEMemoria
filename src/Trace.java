@@ -38,4 +38,5 @@ public class Trace implements Serializable {
     public String toString() {
         return (this.memoryAccess+" "+this.operation);
     }
+
 }
