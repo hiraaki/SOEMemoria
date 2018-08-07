@@ -11,6 +11,7 @@ public class Otimo {
     public Otimo (String filePath,int tamPagina){
         this.list=new ArrayList<>();
         this.hashmap= new HashMap<>();
+        this.tamPagina = tamPagina;
         int linha = 0;
 
         File file = new File(filePath);
@@ -23,27 +24,24 @@ public class Otimo {
             while ((text = reader.readLine()) != null) {
 
                 String array[]=text.split(" ");
-                Trace trace =new Trace(array[0],array[1]);
+                Trace trace =new Trace(array[0],array[1],this.tamPagina);
                 this.list.add(trace);
 
 
-                if(trace.getOperation()!= "W") {
-                    String substring = new String(trace.getMemoryAccess()).substring(0,
-                            (int)(Math.log(tamPagina)/Math.log(2))
-                    );
+                String substring = trace.getPage();
 
-//                System.out.println(trace.getMemoryAccess());
-//                System.out.println(substring);
+                System.out.println(trace.getMemoryAccess());
+                System.out.println(substring);
 //                System.out.println((int)(Math.log(tamPagina)/Math.log(2)));
 
-                    if (hashmap.containsKey(substring)) {
-                        hashmap.get(substring).add(linha);
-                    } else {
-                        ArrayList index = new ArrayList();
-                        index.add(linha);
-                        hashmap.put(substring, index);
-                    }
+                if (hashmap.containsKey(substring)) {
+                    hashmap.get(substring).add(linha);
+                } else {
+                    ArrayList index = new ArrayList();
+                    index.add(linha);
+                    hashmap.put(substring, index);
                 }
+
                 linha++;
             }
         } catch (FileNotFoundException e) {
@@ -69,21 +67,30 @@ public class Otimo {
     }
 
     public void executar(int nFrames){
-        ArrayList<String> framesMemória = new ArrayList<>();
-        for(int i=0; i>this.list.size();i++){
+        ArrayList<String> framesMemoria = new ArrayList<>();
+        for(int i=0; i<this.list.size();i++){
             Trace trace = this.list.get(i);
-            String substring = new String(trace.getMemoryAccess()).substring(0,
-                    (int)(Math.log(tamPagina)/Math.log(2))
-            );
-            if(!framesMemória.contains(substring)){
-                if(framesMemória.size()<nFrames-1){
-                    framesMemória.add(substring);
-                }else{
-                    String selected;
-                    for(String frame:framesMemória){
+            String substring = trace.getPage();
 
-//                        if(hashmap.get(frame).listIterator(0)>)
+            if(!framesMemoria.contains(substring)){
+
+                if(framesMemoria.size()<nFrames-1){
+//                    System.out.println("S");
+                    framesMemoria.add(substring);
+                }else{
+                    String selected=new String();
+                    int geater=-1;
+                    for(String frame:framesMemoria){
+                        int index = this.hashmap.get(frame).get(0);
+                        if(index>geater) {
+                            geater = index;
+                            selected = frame;
+                        }
                     }
+                    this.hashmap.get(selected).remove(0);
+                    framesMemoria.remove(selected);
+                    framesMemoria.add(substring);
+                    this.nFalhadePagina++;
                 }
             }
 
