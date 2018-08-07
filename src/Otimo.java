@@ -1,4 +1,5 @@
 import java.io.*;
+import java.math.BigInteger;
 import java.util.*;
 
 public class Otimo {
@@ -27,16 +28,16 @@ public class Otimo {
                 Trace trace =new Trace(array[0],array[1],this.tamPagina);
                 this.list.add(trace);
 
-
                 String substring = trace.getPage();
 
-                System.out.println(trace.getMemoryAccess());
-                System.out.println(substring);
+//                System.out.println(trace.getMemoryAccess());
+//                System.out.println(substring);
 //                System.out.println((int)(Math.log(tamPagina)/Math.log(2)));
 
                 if (hashmap.containsKey(substring)) {
                     hashmap.get(substring).add(linha);
                 } else {
+//                    System.out.println(new BigInteger(substring, 2).toString(10));
                     ArrayList index = new ArrayList();
                     index.add(linha);
                     hashmap.put(substring, index);
@@ -72,32 +73,52 @@ public class Otimo {
             Trace trace = this.list.get(i);
             String substring = trace.getPage();
 
+//            System.out.println(new BigInteger(trace.getPage(), 2).toString(10));
+
             if(!framesMemoria.contains(substring)){
 
-                if(framesMemoria.size()<nFrames-1){
+                if(framesMemoria.size()<nFrames){
 //                    System.out.println("S");
                     framesMemoria.add(substring);
+                    hashmap.get(substring).remove(0);
                 }else{
                     String selected=new String();
                     int geater=-1;
+                    boolean nocall = false;
                     for(String frame:framesMemoria){
-                        int index = this.hashmap.get(frame).get(0);
-                        if(index>geater) {
-                            geater = index;
+//                        System.out.println(hashmap.get(frame).size()+" "+ frame);
+                        if(hashmap.get(frame).size()>0){
+                            int index = this.hashmap.get(frame).get(0);
+                            if(index>geater) {
+                                geater = index;
+                                selected = frame;
+                            }
+                        }else{
                             selected = frame;
+                            nocall=true;
+                            break;
                         }
+
                     }
-                    this.hashmap.get(selected).remove(0);
+//                    System.out.println(new BigInteger(selected, 2).toString(10)+" troca por: "+new BigInteger(substring, 2).toString(10));
+                    if(nocall){
+                        this.hashmap.remove(selected);
+                    }
                     framesMemoria.remove(selected);
+                    this.hashmap.get(substring).remove(0);
                     framesMemoria.add(substring);
                     this.nFalhadePagina++;
+                }
+            }else{
+                if(this.hashmap.get(substring).size()>0) {
+                    this.hashmap.get(substring).remove(0);
+                }else{
+                    this.hashmap.remove(substring);
+                    framesMemoria.remove(substring);
                 }
             }
 
         }
     }
-
-
-
 
 }
