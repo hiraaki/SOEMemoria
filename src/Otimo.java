@@ -6,16 +6,20 @@ import java.util.*;
 * Classe que possui os métodos do algoritimo ótimo para tratamento de falha de pagina
 * */
 public class Otimo {
-
+    //Lista de traces do arquivo
     ArrayList<Trace> list;
+    //HashMap para aumentar a velocidade de busca das futuras repetições
     HashMap<String, ArrayList<Integer>> hashmap;
+    //Variavel de incremento responsavel por guardar o numero de falha de pagina
     int nFalhadePagina;
+    //Variavel que possui o tamanho da pagina em entradas
     int tamPagina;
 
     /*
     *   Constroi a classe populando o hashmap e a lista de traces.
     */
     public Otimo (String filePath,int tamPagina){
+
         this.list=new ArrayList<>();
         this.hashmap= new HashMap<>();
         this.tamPagina = tamPagina;
