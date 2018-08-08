@@ -2,6 +2,9 @@ import java.io.*;
 import java.math.BigInteger;
 import java.util.*;
 
+/*
+* Classe que possui os métodos do algoritimo ótimo para tratamento de falha de pagina
+* */
 public class Otimo {
 
     ArrayList<Trace> list;
@@ -9,6 +12,9 @@ public class Otimo {
     int nFalhadePagina;
     int tamPagina;
 
+    /*
+    *   Constroi a classe populando o hashmap e a lista de traces.
+    */
     public Otimo (String filePath,int tamPagina){
         this.list=new ArrayList<>();
         this.hashmap= new HashMap<>();
@@ -120,5 +126,6 @@ public class Otimo {
 
         }
     }
+
 
 }

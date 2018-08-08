@@ -8,9 +8,10 @@ public class Trace implements Serializable {
     private String page;
 
     public Trace(String memoryAccess, String operation, int tamPagina) {
-        //parse de string de hexadecimal para binário
 
+        //parse de string de hexadecimal para binário
         String string = new BigInteger(memoryAccess, 16).toString(2);
+
         //Preenchendo zeros ignorados
         while (string.length()<32)
             string="0"+string;
