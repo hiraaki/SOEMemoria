@@ -83,20 +83,24 @@ public class Otimo {
             Trace trace = this.list.get(i);
             String substring = trace.getPage();
 
-//            System.out.println(new BigInteger(trace.getPage(), 2).toString(10));
-
+            //verifica se a pagina está na memória
             if(!framesMemoria.contains(substring)){
-
+                //verifica se ainda há frames livres na memória
                 if(framesMemoria.size()<nFrames){
-//                    System.out.println("S");
+                    //se possui é adicionado
                     framesMemoria.add(substring);
                     hashmap.get(substring).remove(0);
+                //Se não á espaços livres é realizado uma busca
+                // para ver qual é o freme que vai demorar mais para ser utilizado
                 }else{
+                    //Variavel que guarda a pagina a que vai ser retirada da memória
                     String selected=new String();
+                    //Index da proxima vez que a pagina será chamada
                     int geater=-1;
+                    //Variavel que verifica se uma página não será chamada novamente
                     boolean nocall = false;
+
                     for(String frame:framesMemoria){
-//                        System.out.println(hashmap.get(frame).size()+" "+ frame);
                         if(hashmap.get(frame).size()>0){
                             int index = this.hashmap.get(frame).get(0);
                             if(index>geater) {
@@ -110,7 +114,6 @@ public class Otimo {
                         }
 
                     }
-//                    System.out.println(new BigInteger(selected, 2).toString(10)+" troca por: "+new BigInteger(substring, 2).toString(10));
                     if(nocall){
                         this.hashmap.remove(selected);
                     }
